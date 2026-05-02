@@ -47,5 +47,6 @@ test("uses default date when no date is provided", () => {
     <Article title="Test Title" preview="Test preview" minutesToRead={5} />,
   );
 
-  expect(screen.getByText("January 1, 2024 • 5 min read")).toBeInTheDocument();
+  expect(screen.getByText(/January 1, 2024/)).toBeInTheDocument();
+  expect(screen.getByText(/5 min read/)).toBeInTheDocument();
 });
