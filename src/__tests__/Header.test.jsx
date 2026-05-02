@@ -1,13 +1,10 @@
-// Header component - Displays the blog header/title
-// Receives 'name' prop from App component
-import React from 'react';
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import Header from "../components/Header";
 
-function Header({ name }) {
-  return (
-    <header>
-      <h1>{name}</h1>
-    </header>
-  );
-}
+test("renders the blog name in an h1", () => {
+  render(<Header name="My Personal Blog" />);
 
-export default Header;
+  const headerElement = screen.getByRole("heading", { level: 1 });
+  expect(headerElement).toHaveTextContent("My Personal Blog");
+});

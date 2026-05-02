@@ -1,18 +1,51 @@
-// Article component - Displays individual blog post
-// Receives 'title', 'date', 'preview', and 'minutesToRead' props from ArticleList
-import React from 'react';
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import Article from "../components/Article";
 
-function Article({ title, date, preview, minutesToRead }) {
-  // If no date is provided, use "January 1, 2024" as default
-  const displayDate = date || "January 1, 2024";
-  
-  return (
-    <article>
-      <h3>{title}</h3>
-      <small>{displayDate} • {minutesToRead} min read</small>
-      <p>{preview}</p>
-    </article>
+test("renders an h3 with the title", () => {
+  render(
+    <Article
+      title="Test Title"
+      date="January 1, 2024"
+      preview="Test preview"
+      minutesToRead={5}
+    />,
   );
-}
 
-export default Article;
+  const titleElement = screen.getByRole("heading", { level: 3 });
+  expect(titleElement).toHaveTextContent("Test Title");
+});
+
+test("renders the date and minutes to read", () => {
+  render(
+    <Article
+      title="Test Title"
+      date="January 1, 2024"
+      preview="Test preview"
+      minutesToRead={5}
+    />,
+  );
+
+  expect(screen.getByText("January 1, 2024 • 5 min read")).toBeInTheDocument();
+});
+
+test("renders the preview text", () => {
+  render(
+    <Article
+      title="Test Title"
+      date="January 1, 2024"
+      preview="Test preview"
+      minutesToRead={5}
+    />,
+  );
+
+  expect(screen.getByText("Test preview")).toBeInTheDocument();
+});
+
+test("uses default date when no date is provided", () => {
+  render(
+    <Article title="Test Title" preview="Test preview" minutesToRead={5} />,
+  );
+
+  expect(screen.getByText("January 1, 2024 • 5 min read")).toBeInTheDocument();
+});

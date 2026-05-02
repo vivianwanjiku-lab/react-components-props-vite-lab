@@ -1,23 +1,34 @@
-// ArticleList component - Renders a list of article components
-// Receives 'posts' array prop from App component
-// Maps through each post and creates an Article component
-import React from 'react';
-import Article from './Article';
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import ArticleList from "../components/ArticleList";
 
-function ArticleList({ posts }) {
-  return (
-    <main>
-      {posts.map(post => (
-        <Article 
-          key={post.id}
-          title={post.title}
-          date={post.date}
-          preview={post.preview}
-          minutesToRead={post.minutesToRead}
-        />
-      ))}
-    </main>
-  );
-}
+const posts = [
+  {
+    id: 1,
+    title: "Test Post 1",
+    date: "January 1, 2024",
+    preview: "Preview 1",
+    minutesToRead: 5,
+  },
+  {
+    id: 2,
+    title: "Test Post 2",
+    date: "January 2, 2024",
+    preview: "Preview 2",
+    minutesToRead: 7,
+  },
+];
 
-export default ArticleList;
+test("renders a main element", () => {
+  render(<ArticleList posts={posts} />);
+
+  const mainElement = screen.getByRole("main");
+  expect(mainElement).toBeInTheDocument();
+});
+
+test("renders an Article component for each post", () => {
+  render(<ArticleList posts={posts} />);
+
+  expect(screen.getByText("Test Post 1")).toBeInTheDocument();
+  expect(screen.getByText("Test Post 2")).toBeInTheDocument();
+});
