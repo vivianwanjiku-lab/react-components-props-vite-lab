@@ -15,3 +15,10 @@ test("renders a p with the about text", () => {
   const pElement = screen.getByText("About me");
   expect(pElement).toBeInTheDocument();
 });
+
+test("uses a default value for the image if no image is passed as a prop", () => {
+  render(<About about="About me" />);
+
+  const imgElement = screen.getByAltText("blog logo");
+  expect(imgElement).toHaveAttribute("src", "https://via.placeholder.com/215");
+});
